@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nam</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: #f8bbd0;
+            color: #555;
+            text-align: center;
+            padding: 50px;
+            overflow: hidden;
+            position: relative;
+        }
+        h1 {
+            font-size: 3.5rem;
+            color: #d72638;
+        }
+        p {
+            font-size: 1.8rem;
+            margin-top: 20px;
+            color: #444;
+        }
+        .gift {
+            margin-top: 40px;
+            display: inline-block;
+            background-color: #f8d7da;
+            padding: 20px;
+            border: 5px solid #d72638;
+            border-radius: 10px;
+            animation: bounce 2s infinite;
+            text-align: center;
+        }
+        .gift img {
+            width: 200px;
+            height: auto;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .click-me-button {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: #d72638;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+        }
+        .click-me-button:hover {
+            background-color: #a31d2a;
+        }
+
+        /* Style for notifications */
+        .notification {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 2px solid #d72638;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 1.2rem;
+            color: #d72638;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 300px; /* Fixed width */
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Bong bóng bay */
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 50px;
+            height: 70px;
+            background-color: #ffcccb;
+            border-radius: 50%;
+            animation: floatUp 5s ease-in-out infinite;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh);
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🌟 Happy Birthday to You! 🌟</h1>
+    <p>🎂✨Anh Nam chúc em một tuổi mới tràn đầy niềm vui và hạnh phúc nha</p>
+
+    <!-- Bong bóng sẽ được thêm tự động qua JavaScript -->
+    <div id="balloon-container"></div>
+
+    <!-- Khung chứa ảnh và nút -->
+    <div class="gift">
+        <!-- Ảnh từ máy tính -->
+        <img src="image.jpg" alt="Happy Birthday Gift">
+        <p>Bất ngờ ở đây nè! hehe...</p>
+        <button class="click-me-button" onclick="startNotificationsAndMusic()">Phượng ngốc</button>
+    </div>
+
+    <audio id="birthdayAudio" src="happybirthday.mp3"></audio>
+
+    <script>
+        // Hàm tạo bong bóng bay
+        function createBalloon() {
+            const balloonContainer = document.getElementById('balloon-container');
+            if (!balloonContainer) {
+                console.error("Balloon container not found.");
+                return;
+            }
+
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+
+            const randomX = Math.random() * window.innerWidth;
+            const randomScale = Math.random() * 0.5 + 0.5; // Scale between 0.5 and 1
+            balloon.style.left = `${randomX}px`;
+            balloon.style.transform = `scale(${randomScale})`;
+            balloon.style.backgroundColor = getRandomColor();
+
+            balloonContainer.appendChild(balloon);
+
+            // Remove the balloon after the animation ends
+            setTimeout(() => {
+                balloon.remove();
+            }, 5000); // Duration of the animation
+        }
+
+        function getRandomColor() {
+            const colors = ['#ffcccb', '#ffc107', '#ff8a80', '#80d8ff', '#b9f6ca', '#ff80ab', '#ffd180'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function startBalloons() {
+            setInterval(createBalloon, 300); // Create a new balloon every 300ms
+        }
+
+        // Hàm hiển thị thông báo và phát nhạc
+        function startNotificationsAndMusic() {
+            const messages = [
+                "🎉Chúc em không chỉ sinh nhật vui vẻ. Mà sau này, ngày ngày đều vui vẻ",
+                "🎁Chúc em tuổi mới đong đầy. Bao nhiêu điều tốt, đều là của em",
+                "🌸Chúc em sinh nhật vui vẻ. Luôn xinh như hoa",
+                "🎯Chúc em đạt được những điều mình mong muốn. Những điều đạt được đều là những điều tốt nhất",
+                "🍀Chúc mọi điều tốt lành sẽ đến bên em",
+                "🎈Chúc một ngày tiệc với em nhé",
+                "🌟Chúc em càng ngày càng trưởng thành",
+                "❤️Chúc em sinh nhật đầy ắp sự yêu thương, mau ăn chóng lớn và nhớ là phải thật hạnh phúc",
+                "🏆Hy vọng em sẽ thành công, hạnh phúc trong cả công việc lẫn cuộc sống",
+                "💖Cảm ơn em! Người đã mang đến cho anh niềm vui trong cuộc sống anh. Anh sẽ luôn là chỗ dựa vững chắc cho em"
+            ];
+
+            const audio = document.getElementById('birthdayAudio');
+            if (audio) {
+                audio.play();
+            } else {
+                console.error("Audio element not found.");
+            }
+
+            const notificationInterval = setInterval(() => {
+                createNotification(messages);
+            }, 500);
+        }
+
+        function createNotification(messages) {
+            if (!messages || messages.length === 0) {
+                console.error("Messages array is empty or not defined.");
+                return;
+            }
+
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+
+            // Chọn thông báo ngẫu nhiên
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            notification.textContent = randomMessage;
+
+            // Vị trí ngẫu nhiên
+            const randomX = Math.random() * (window.innerWidth - 320);
+            const randomY = Math.random() * (window.innerHeight - 70);
+            notification.style.left = `${randomX}px`;
+            notification.style.top = `${randomY}px`;
+
+            document.body.appendChild(notification);
+
+            // Không xóa thông báo
+            console.log("Notification added:", randomMessage);
+        }
+
+        // Bắt đầu hiệu ứng bong bóng khi tải trang
+        startBalloons();
+    </script>
+</body>
+</html>
