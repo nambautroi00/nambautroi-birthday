@@ -10,33 +10,35 @@
             background: #f8bbd0;
             color: #555;
             text-align: center;
-            padding: 50px;
+            padding: 20px;
             overflow: hidden;
             position: relative;
         }
         h1 {
-            font-size: 3.5rem;
+            font-size: 2.5rem; /* Adjusted for smaller screens */
             color: #d72638;
         }
         p {
-            font-size: 1.8rem;
-            margin-top: 20px;
+            font-size: 1.5rem; /* Adjusted for smaller screens */
+            margin-top: 15px;
             color: #444;
         }
         .gift {
-            margin-top: 40px;
+            margin-top: 30px;
             display: inline-block;
             background-color: #f8d7da;
-            padding: 20px;
-            border: 5px solid #d72638;
+            padding: 15px;
+            border: 4px solid #d72638;
             border-radius: 10px;
             animation: bounce 2s infinite;
             text-align: center;
+            max-width: 90%; /* Responsive width */
         }
         .gift img {
-            width: 200px;
+            width: 100%; /* Responsive image */
+            max-width: 150px;
             height: auto;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
@@ -54,8 +56,8 @@
             background-color: #d72638;
             color: #fff;
             border: none;
-            padding: 10px 20px;
-            font-size: 1.2rem;
+            padding: 8px 15px;
+            font-size: 1rem; /* Adjusted for smaller screens */
             border-radius: 8px;
             cursor: pointer;
             animation: bounce 2s infinite;
@@ -71,10 +73,10 @@
             border: 2px solid #d72638;
             border-radius: 8px;
             padding: 10px;
-            font-size: 1.2rem;
+            font-size: 1rem; /* Adjusted for smaller screens */
             color: #d72638;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            width: 300px; /* Fixed width */
+            width: 250px; /* Responsive width */
             text-align: center;
             animation: fadeIn 0.5s ease-in-out;
         }
@@ -93,8 +95,8 @@
         .balloon {
             position: absolute;
             bottom: -100px;
-            width: 50px;
-            height: 70px;
+            width: 40px; /* Adjusted for smaller screens */
+            height: 60px; /* Adjusted for smaller screens */
             background-color: #ffcccb;
             border-radius: 50%;
             animation: floatUp 5s ease-in-out infinite;
@@ -108,6 +110,24 @@
             100% {
                 transform: translateY(-120vh);
                 opacity: 0.8;
+            }
+        }
+
+        /* Media query cho màn hình nhỏ */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem; /* Smaller heading */
+            }
+            p {
+                font-size: 1.2rem; /* Smaller paragraph text */
+            }
+            .click-me-button {
+                padding: 6px 12px; /* Smaller button */
+                font-size: 0.9rem;
+            }
+            .notification {
+                width: 200px; /* Smaller notifications */
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -130,7 +150,6 @@
     <audio id="birthdayAudio" src="happybirthday.mp3"></audio>
 
     <script>
-        // Hàm tạo bong bóng bay
         function createBalloon() {
             const balloonContainer = document.getElementById('balloon-container');
             if (!balloonContainer) {
@@ -149,7 +168,6 @@
 
             balloonContainer.appendChild(balloon);
 
-            // Remove the balloon after the animation ends
             setTimeout(() => {
                 balloon.remove();
             }, 5000); // Duration of the animation
@@ -164,7 +182,6 @@
             setInterval(createBalloon, 300); // Create a new balloon every 300ms
         }
 
-        // Hàm hiển thị thông báo và phát nhạc
         function startNotificationsAndMusic() {
             const messages = [
                 "🎉Chúc em không chỉ sinh nhật vui vẻ. Mà sau này, ngày ngày đều vui vẻ",
@@ -186,37 +203,26 @@
                 console.error("Audio element not found.");
             }
 
-            const notificationInterval = setInterval(() => {
+            setInterval(() => {
                 createNotification(messages);
             }, 500);
         }
 
         function createNotification(messages) {
-            if (!messages || messages.length === 0) {
-                console.error("Messages array is empty or not defined.");
-                return;
-            }
-
             const notification = document.createElement('div');
             notification.className = 'notification';
 
-            // Chọn thông báo ngẫu nhiên
             const randomMessage = messages[Math.floor(Math.random() * messages.length)];
             notification.textContent = randomMessage;
 
-            // Vị trí ngẫu nhiên
             const randomX = Math.random() * (window.innerWidth - 320);
             const randomY = Math.random() * (window.innerHeight - 70);
             notification.style.left = `${randomX}px`;
             notification.style.top = `${randomY}px`;
 
             document.body.appendChild(notification);
-
-            // Không xóa thông báo
-            console.log("Notification added:", randomMessage);
         }
 
-        // Bắt đầu hiệu ứng bong bóng khi tải trang
         startBalloons();
     </script>
 </body>
