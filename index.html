@@ -22,7 +22,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1; /* Đảm bảo bong bóng nằm dưới thông báo và nội dung */
+            z-index: 1; /* Đảm bảo bong bóng nằm dưới */
             pointer-events: none;
         }
 
@@ -61,7 +61,7 @@
             width: 250px;
             text-align: center;
             animation: fadeIn 0.5s ease-in-out;
-            z-index: 100; /* Đảm bảo thông báo luôn nằm trên */
+            z-index: 100; /* Đảm bảo thông báo nằm trên */
         }
 
         @keyframes fadeIn {
@@ -127,6 +127,42 @@
         .click-me-button:hover {
             background-color: #a31d2a;
         }
+
+        /* Thiết kế cho điện thoại */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            p {
+                font-size: 1.2rem;
+                margin-top: 10px;
+            }
+
+            .gift {
+                padding: 10px;
+                border: 3px solid #d72638;
+            }
+
+            .gift img {
+                max-width: 120px;
+            }
+
+            .click-me-button {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+
+            .notification {
+                width: 200px;
+                font-size: 0.9rem;
+            }
+
+            .balloon {
+                width: 40px;
+                height: 60px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -144,7 +180,6 @@
     <audio id="birthdayAudio" src="happybirthday.mp3"></audio>
 
     <script>
-        // Tạo bong bóng
         function createBalloon() {
             const balloonContainer = document.getElementById('balloon-container');
             if (!balloonContainer) {
@@ -166,7 +201,7 @@
 
             setTimeout(() => {
                 balloon.remove();
-            }, 5000); // Xóa bóng sau 5 giây
+            }, 5000);
         }
 
         function getRandomColor() {
@@ -178,7 +213,6 @@
             setInterval(createBalloon, 300);
         }
 
-        // Tạo thông báo
         function createNotification(messages) {
             const notification = document.createElement('div');
             notification.className = 'notification';
@@ -186,7 +220,7 @@
             const randomMessage = messages[Math.floor(Math.random() * messages.length)];
             notification.textContent = randomMessage;
 
-            const maxWidth = window.innerWidth - 260; // Trừ đi chiều rộng thông báo
+            const maxWidth = window.innerWidth - 260;
             const maxHeight = window.innerHeight - 70;
 
             const randomX = Math.random() * maxWidth;
@@ -198,7 +232,6 @@
             document.body.appendChild(notification);
         }
 
-        // Kích hoạt âm thanh và thông báo
         function startNotificationsAndMusic() {
             const messages = [
                 "🎉Chúc em không chỉ sinh nhật vui vẻ. Mà sau này, ngày ngày đều vui vẻ",
