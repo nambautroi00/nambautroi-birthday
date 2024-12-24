@@ -14,70 +14,16 @@
             overflow: hidden;
             position: relative;
         }
-        h1 {
-            font-size: 2.5rem;
-            color: #d72638;
-        }
-        p {
-            font-size: 1.5rem;
-            margin-top: 15px;
-            color: #444;
-        }
-        .gift {
-            margin-top: 30px;
-            display: inline-block;
-            background-color: #f8d7da;
-            padding: 15px;
-            border: 4px solid #d72638;
-            border-radius: 10px;
-            text-align: center;
-            max-width: 90%;
-        }
-        .gift img {
-            width: 100%;
-            max-width: 150px;
-            height: auto;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        .click-me-button {
-            display: inline-block;
-            margin-top: 10px;
-            background-color: #d72638;
-            color: #fff;
-            border: none;
-            padding: 8px 15px;
-            font-size: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        .click-me-button:hover {
-            background-color: #a31d2a;
-        }
-        .notification {
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 2px solid #d72638;
-            border-radius: 8px;
-            padding: 10px;
-            font-size: 1rem;
-            color: #d72638;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            width: 250px;
-            text-align: center;
-            animation: fadeIn 0.5s ease-in-out;
-        }
 
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
+        /* Bong bóng */
+        #balloon-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Đảm bảo bong bóng nằm dưới thông báo và nội dung */
+            pointer-events: none;
         }
 
         .balloon {
@@ -101,13 +47,93 @@
                 opacity: 0.8;
             }
         }
+
+        /* Thông báo */
+        .notification {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 2px solid #d72638;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 1rem;
+            color: #d72638;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 250px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+            z-index: 100; /* Đảm bảo thông báo luôn nằm trên */
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Nội dung chính */
+        h1, p, .gift {
+            position: relative;
+            z-index: 10; /* Nội dung nằm trên bong bóng */
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #d72638;
+        }
+
+        p {
+            font-size: 1.5rem;
+            margin-top: 15px;
+            color: #444;
+        }
+
+        .gift {
+            margin-top: 30px;
+            display: inline-block;
+            background-color: #f8d7da;
+            padding: 15px;
+            border: 4px solid #d72638;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 90%;
+        }
+
+        .gift img {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .click-me-button {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: #d72638;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .click-me-button:hover {
+            background-color: #a31d2a;
+        }
     </style>
 </head>
 <body>
+    <div id="balloon-container"></div>
+
     <h1>🌟 Happy Birthday to You! 🌟</h1>
     <p>🎂✨Anh Nam chúc em một tuổi mới tràn đầy niềm vui và hạnh phúc nha</p>
-
-    <div id="balloon-container"></div>
 
     <div class="gift">
         <img src="image.jpg" alt="Happy Birthday Gift">
@@ -118,7 +144,7 @@
     <audio id="birthdayAudio" src="happybirthday.mp3"></audio>
 
     <script>
-        // Hàm tạo bong bóng
+        // Tạo bong bóng
         function createBalloon() {
             const balloonContainer = document.getElementById('balloon-container');
             if (!balloonContainer) {
@@ -129,21 +155,18 @@
             const balloon = document.createElement('div');
             balloon.className = 'balloon';
 
-            // Vị trí ngẫu nhiên
             const randomX = Math.random() * window.innerWidth;
-            const randomScale = Math.random() * 0.5 + 0.5; // Scale between 0.5 and 1
+            const randomScale = Math.random() * 0.5 + 0.5; // Scale giữa 0.5 và 1
             balloon.style.left = `${randomX}px`;
             balloon.style.transform = `scale(${randomScale})`;
 
-            // Màu sắc ngẫu nhiên
             balloon.style.backgroundColor = getRandomColor();
 
             balloonContainer.appendChild(balloon);
 
-            // Xóa bong bóng sau khi hoàn thành hoạt ảnh
             setTimeout(() => {
                 balloon.remove();
-            }, 5000);
+            }, 5000); // Xóa bóng sau 5 giây
         }
 
         function getRandomColor() {
@@ -151,21 +174,19 @@
             return colors[Math.floor(Math.random() * colors.length)];
         }
 
-        // Bắt đầu bong bóng ngay khi tải trang
         function startBalloons() {
             setInterval(createBalloon, 300);
         }
 
+        // Tạo thông báo
         function createNotification(messages) {
             const notification = document.createElement('div');
             notification.className = 'notification';
 
-            // Chọn thông báo ngẫu nhiên
             const randomMessage = messages[Math.floor(Math.random() * messages.length)];
             notification.textContent = randomMessage;
 
-            // Vị trí ngẫu nhiên
-            const maxWidth = window.innerWidth - 260;
+            const maxWidth = window.innerWidth - 260; // Trừ đi chiều rộng thông báo
             const maxHeight = window.innerHeight - 70;
 
             const randomX = Math.random() * maxWidth;
@@ -177,6 +198,7 @@
             document.body.appendChild(notification);
         }
 
+        // Kích hoạt âm thanh và thông báo
         function startNotificationsAndMusic() {
             const messages = [
                 "🎉Chúc em không chỉ sinh nhật vui vẻ. Mà sau này, ngày ngày đều vui vẻ",
@@ -198,18 +220,15 @@
                 console.error("Audio element not found.");
             }
 
-            // Tạo thông báo mỗi 0.5 giây
             const notificationInterval = setInterval(() => {
                 createNotification(messages);
             }, 500);
 
-            // Dừng thông báo sau 1 phút
             setTimeout(() => {
                 clearInterval(notificationInterval);
-            }, 60000);
+            }, 60000); // Dừng sau 1 phút
         }
 
-        // Bắt đầu tạo bong bóng khi trang tải
         startBalloons();
     </script>
 </body>
