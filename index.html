@@ -30,7 +30,6 @@
             padding: 15px;
             border: 4px solid #d72638;
             border-radius: 10px;
-            animation: bounce 2s infinite;
             text-align: center;
             max-width: 90%;
         }
@@ -42,14 +41,6 @@
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
         .click-me-button {
             display: inline-block;
             margin-top: 10px;
@@ -60,13 +51,10 @@
             font-size: 1rem;
             border-radius: 8px;
             cursor: pointer;
-            animation: bounce 2s infinite;
         }
         .click-me-button:hover {
             background-color: #a31d2a;
         }
-
-        /* Style for notifications */
         .notification {
             position: absolute;
             background-color: rgba(255, 255, 255, 0.9);
@@ -76,10 +64,11 @@
             font-size: 1rem;
             color: #d72638;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            width: 250px; /* Responsive width */
+            width: 250px;
             text-align: center;
             animation: fadeIn 0.5s ease-in-out;
         }
+
         @keyframes fadeIn {
             0% {
                 opacity: 0;
@@ -88,6 +77,28 @@
             100% {
                 opacity: 1;
                 transform: scale(1);
+            }
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 50px;
+            height: 70px;
+            background-color: #ffcccb;
+            border-radius: 50%;
+            animation: floatUp 5s ease-in-out infinite;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh);
+                opacity: 0.8;
             }
         }
     </style>
@@ -107,6 +118,44 @@
     <audio id="birthdayAudio" src="happybirthday.mp3"></audio>
 
     <script>
+        // Hàm tạo bong bóng
+        function createBalloon() {
+            const balloonContainer = document.getElementById('balloon-container');
+            if (!balloonContainer) {
+                console.error("Balloon container not found.");
+                return;
+            }
+
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+
+            // Vị trí ngẫu nhiên
+            const randomX = Math.random() * window.innerWidth;
+            const randomScale = Math.random() * 0.5 + 0.5; // Scale between 0.5 and 1
+            balloon.style.left = `${randomX}px`;
+            balloon.style.transform = `scale(${randomScale})`;
+
+            // Màu sắc ngẫu nhiên
+            balloon.style.backgroundColor = getRandomColor();
+
+            balloonContainer.appendChild(balloon);
+
+            // Xóa bong bóng sau khi hoàn thành hoạt ảnh
+            setTimeout(() => {
+                balloon.remove();
+            }, 5000);
+        }
+
+        function getRandomColor() {
+            const colors = ['#ffcccb', '#ffc107', '#ff8a80', '#80d8ff', '#b9f6ca', '#ff80ab', '#ffd180'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Bắt đầu bong bóng ngay khi tải trang
+        function startBalloons() {
+            setInterval(createBalloon, 300);
+        }
+
         function createNotification(messages) {
             const notification = document.createElement('div');
             notification.className = 'notification';
@@ -115,9 +164,9 @@
             const randomMessage = messages[Math.floor(Math.random() * messages.length)];
             notification.textContent = randomMessage;
 
-            // Tính toán vị trí ngẫu nhiên, giới hạn trong khung hình
-            const maxWidth = window.innerWidth - 260; // Trừ đi chiều rộng của thông báo
-            const maxHeight = window.innerHeight - 70; // Trừ đi chiều cao của thông báo
+            // Vị trí ngẫu nhiên
+            const maxWidth = window.innerWidth - 260;
+            const maxHeight = window.innerHeight - 70;
 
             const randomX = Math.random() * maxWidth;
             const randomY = Math.random() * maxHeight;
@@ -149,10 +198,19 @@
                 console.error("Audio element not found.");
             }
 
-            setInterval(() => {
+            // Tạo thông báo mỗi 0.5 giây
+            const notificationInterval = setInterval(() => {
                 createNotification(messages);
             }, 500);
+
+            // Dừng thông báo sau 1 phút
+            setTimeout(() => {
+                clearInterval(notificationInterval);
+            }, 60000);
         }
+
+        // Bắt đầu tạo bong bóng khi trang tải
+        startBalloons();
     </script>
 </body>
 </html>
